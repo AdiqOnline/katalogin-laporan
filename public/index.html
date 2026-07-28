@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Katalog Toko</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal-deep:#0F3D3E;
+    --teal-mid:#154D4E;
+    --gold:#D4A94A;
+    --gold-soft:#EAD9AE;
+    --cream:#FBF8F3;
+    --ink:#1C1C1C;
+    --ink-soft:#5B5B57;
+    --line:#E7E1D3;
+    --radius:16px;
+    --shadow: 0 8px 24px rgba(15,61,62,0.08);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:2px;}
+
+  .page{max-width:480px;margin:0 auto;min-height:100vh;background:var(--cream);position:relative;}
+
+  .cover{
+    height:132px;
+    background:
+      radial-gradient(circle at 15% 30%, rgba(212,169,74,0.35) 0, transparent 45%),
+      radial-gradient(circle at 85% 70%, rgba(212,169,74,0.25) 0, transparent 40%),
+      linear-gradient(160deg, var(--teal-deep), var(--teal-mid));
+    position:relative;overflow:hidden;
+  }
+  .cover::after{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(45deg, rgba(255,255,255,0.035) 0 2px, transparent 2px 14px);}
+
+  .profile{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 24px 22px;margin-top:-46px;}
+  .avatar{width:92px;height:92px;border-radius:50%;background:linear-gradient(145deg,#1a5455,var(--teal-deep));border:4px solid var(--cream);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:32px;font-weight:600;color:var(--gold-soft);overflow:hidden;}
+  .badge{display:inline-flex;align-items:center;gap:5px;margin-top:12px;padding:4px 11px;border-radius:100px;background:var(--gold-soft);color:#5c4a12;font-size:11.5px;font-weight:600;letter-spacing:0.02em;}
+  .badge svg{width:11px;height:11px;}
+  .brand-name{font-family:'Fraunces',serif;font-weight:600;font-size:26px;margin:10px 0 4px;letter-spacing:-0.01em;}
+  .tagline{font-size:14px;color:var(--ink-soft);max-width:320px;line-height:1.5;margin:0 0 16px;}
+  .meta-row{display:flex;align-items:center;justify-content:center;gap:14px;font-size:12.5px;color:var(--ink-soft);margin-bottom:18px;flex-wrap:wrap;}
+  .meta-row span{display:flex;align-items:center;gap:5px;}
+  .meta-row svg{width:13px;height:13px;flex:none;}
+  .dot{width:3px;height:3px;border-radius:50%;background:var(--line);}
+
+  .contact-row{display:flex;gap:10px;width:100%;}
+  .btn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:12px 14px;border-radius:12px;font-size:13.5px;font-weight:600;border:1px solid transparent;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease, background .15s ease;}
+  .btn svg{width:16px;height:16px;flex:none;}
+  .btn-primary{background:var(--teal-deep);color:var(--cream);}
+  .btn-primary:hover{background:#0b2f30;transform:translateY(-1px);box-shadow:0 6px 16px rgba(15,61,62,0.25);}
+  .btn-ghost{background:transparent;border-color:var(--line);color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--gold);background:rgba(212,169,74,0.08);}
+
+  .categories{display:flex;gap:8px;overflow-x:auto;padding:18px 24px 6px;scrollbar-width:none;}
+  .categories::-webkit-scrollbar{display:none;}
+  .chip{flex:none;padding:8px 16px;border-radius:100px;font-size:13px;font-weight:600;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .15s ease;white-space:nowrap;}
+  .chip.active{background:var(--teal-deep);border-color:var(--teal-deep);color:var(--cream);}
+  .chip:hover:not(.active){border-color:var(--gold);color:var(--ink);}
+
+  .section-title{padding:22px 24px 4px;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);}
+
+  .catalog{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:12px 24px 8px;}
+  .empty-state{padding:32px 24px;text-align:center;color:var(--ink-soft);font-size:13px;}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:transform .18s ease, box-shadow .18s ease;}
+  .card:hover{transform:translateY(-3px);box-shadow:var(--shadow);}
+  .card-media{aspect-ratio:1/0.85;background:linear-gradient(135deg, rgba(212,169,74,0.18), rgba(15,61,62,0.1));display:flex;align-items:center;justify-content:center;position:relative;}
+  .card-media span{font-family:'Fraunces',serif;font-size:13px;color:var(--teal-deep);opacity:0.55;text-align:center;padding:0 8px;}
+  .stock-tag{position:absolute;top:8px;left:8px;background:rgba(255,255,255,0.92);color:var(--teal-deep);font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px;letter-spacing:0.02em;}
+  .stock-tag.habis{color:#a94442;}
+  .card-body{padding:12px 12px 14px;display:flex;flex-direction:column;gap:4px;flex:1;}
+  .card-name{font-size:13.5px;font-weight:600;line-height:1.35;}
+  .card-desc{font-size:11.5px;color:var(--ink-soft);line-height:1.4;margin:0 0 6px;}
+  .card-footer{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .price{font-size:14px;font-weight:700;color:var(--teal-deep);}
+  .order-btn{width:30px;height:30px;border-radius:50%;background:var(--gold);color:var(--teal-deep);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s ease, transform .15s ease;}
+  .order-btn:hover{background:#c69935;transform:scale(1.06);}
+  .order-btn svg{width:14px;height:14px;}
+  .order-btn:disabled{opacity:.4;cursor:not-allowed;}
+
+  .info-strip{margin:20px 24px 4px;padding:14px 16px;background:rgba(15,61,62,0.05);border:1px dashed var(--line);border-radius:12px;font-size:12px;color:var(--ink-soft);display:flex;gap:10px;align-items:flex-start;line-height:1.5;}
+  .info-strip svg{width:16px;height:16px;flex:none;margin-top:1px;color:var(--gold);}
+
+  footer{margin-top:28px;padding:24px 24px 32px;text-align:center;border-top:1px solid var(--line);}
+  .socials{display:flex;justify-content:center;gap:12px;margin-bottom:16px;}
+  .social-icon{width:38px;height:38px;border-radius:50%;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:all .15s ease;}
+  .social-icon svg{width:16px;height:16px;color:var(--teal-deep);}
+  .social-icon:hover{border-color:var(--gold);background:var(--gold-soft);transform:translateY(-2px);}
+  .powered{font-size:11px;color:#9b968a;letter-spacing:0.02em;}
+
+  @media (max-width:360px){
+    .catalog{grid-template-columns:1fr 1fr;gap:10px;padding:10px 16px;}
+    .profile{padding:0 16px 20px;}
+    .categories{padding:16px 16px 6px;}
+    .section-title{padding:18px 16px 4px;}
+  }
+  @media (prefers-reduced-motion: reduce){*{transition:none !important;}html{scroll-behavior:auto;}}
+</style>
+</head>
+<body>
+<div class="page" id="page">
+
+  <div class="cover"></div>
+
+  <div class="profile">
+    <div class="avatar" id="avatarInitials">…</div>
+    <span class="badge">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 15 8 22 9 17 14 18 21 12 17.5 6 21 7 14 2 9 9 8Z"/></svg>
+      Toko Terverifikasi
+    </span>
+    <h1 class="brand-name" id="brandName">Memuat…</h1>
+    <p class="tagline" id="tagline"></p>
+    <div class="meta-row">
+      <span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.4-7-11a7 7 0 0 1 14 0c0 4.6-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        <span id="location"></span>
+      </span>
+      <span class="dot"></span>
+      <span id="hours"></span>
+    </div>
+    <div class="contact-row">
+      <a href="#" id="waLink" class="btn btn-primary" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5C11.6 9.2 11.1 8 10.9 7.6c-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3 4.8 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.3.2-.6.2-1.2.2-1.3-.1-.1-.2-.2-.5-.3Z"/><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Zm0 18.2c-1.6 0-3.1-.4-4.5-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/></svg>
+        WhatsApp
+      </a>
+      <a href="#" id="igLink" class="btn btn-ghost" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8 2v4M16 2v4M4 10h16"/></svg>
+        Instagram
+      </a>
+    </div>
+  </div>
+
+  <div class="categories" id="categories"></div>
+
+  <div class="section-title">Katalog Produk</div>
+  <div class="catalog" id="catalog"></div>
+
+  <div class="info-strip">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    Klik tombol panah pada produk untuk langsung memesan lewat WhatsApp. Stok dapat berubah sewaktu-waktu.
+  </div>
+
+  <footer>
+    <div class="socials">
+      <a href="#" class="social-icon" aria-label="WhatsApp" id="waIcon">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.4A10 10 0 1 0 12 2Z"/></svg>
+      </a>
+      <a href="#" class="social-icon" aria-label="Instagram" id="igIcon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="3.2"/></svg>
+      </a>
+    </div>
+    <p class="powered" id="footerNote">© 2026 Toko · katalog.link</p>
+  </footer>
+
+</div>
+
+<script>
+const DEFAULT_PROFILE = {
+  name: "Kedai Rasa Nusantara",
+  initials: "KR",
+  tagline: "Camilan & bumbu rumahan asli buatan tangan, dikirim segar dari dapur kami ke rumah Anda.",
+  location: "Bandung, Jawa Barat",
+  hours: "Buka 08.00–20.00",
+  whatsapp: "6281234567890",
+  instagram: "kedairasanusantara"
+};
+
+const DEFAULT_PRODUCTS = [
+  {id:"p1", name:"Keripik Tempe Original", desc:"Renyah, tanpa pengawet · 250g", price:22000, category:"Camilan", stock:"tersedia", featured:true},
+  {id:"p2", name:"Sambal Bawang Rumahan", desc:"Pedas gurih · botol 150ml", price:28000, category:"Bumbu", stock:"tersedia", featured:false},
+  {id:"p3", name:"Jamu Kunyit Asam", desc:"Segar alami · botol 350ml", price:15000, category:"Minuman", stock:"tersedia", featured:false},
+  {id:"p4", name:"Bumbu Rendang Siap Pakai", desc:"Rempah asli Padang · 200g", price:35000, category:"Bumbu", stock:"habis", featured:false},
+  {id:"p5", name:"Paket Hampers Nusantara", desc:"Isi 5 camilan pilihan", price:95000, category:"Paket Hampers", stock:"tersedia", featured:false},
+  {id:"p6", name:"Es Cincau Gula Aren", desc:"Manis alami · cup 300ml", price:12000, category:"Minuman", stock:"tersedia", featured:false}
+];
+
+let profile = DEFAULT_PROFILE;
+let products = DEFAULT_PRODUCTS;
+let activeCategory = "Semua";
+
+function formatRupiah(n){
+  return "Rp " + Number(n).toLocaleString("id-ID");
+}
+
+async function loadData(){
+  try{
+    const res = await fetch("/api/get-data");
+    if(res.ok){
+      const data = await res.json();
+      if(data.profile) profile = data.profile;
+      if(data.products) products = data.products;
+    }
+  }catch(e){
+    // Belum ada koneksi ke server atau belum pernah disimpan — pakai data contoh
+  }
+}
+
+function renderProfile(){
+  const avatarEl = document.getElementById("avatarInitials");
+  if(profile.avatar){
+    avatarEl.innerHTML = `<img src="${profile.avatar}" alt="${profile.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+  }else{
+    avatarEl.textContent = profile.initials || profile.name.slice(0,2).toUpperCase();
+  }
+  document.getElementById("brandName").textContent = profile.name;
+  document.getElementById("tagline").textContent = profile.tagline;
+  document.getElementById("location").textContent = profile.location;
+  document.getElementById("hours").textContent = profile.hours;
+  const waNum = (profile.whatsapp || "").replace(/[^0-9]/g,"");
+  const waUrl = "https://wa.me/" + waNum;
+  document.getElementById("waLink").href = waUrl;
+  document.getElementById("waIcon").href = waUrl;
+  const igUrl = "https://instagram.com/" + (profile.instagram || "").replace("@","");
+  document.getElementById("igLink").href = igUrl;
+  document.getElementById("igIcon").href = igUrl;
+  document.getElementById("footerNote").textContent = "© 2026 " + profile.name + " · katalog.link";
+}
+
+function renderCategories(){
+  const cats = ["Semua", ...new Set(products.map(p => p.category))];
+  const wrap = document.getElementById("categories");
+  wrap.innerHTML = "";
+  cats.forEach(cat => {
+    const btn = document.createElement("button");
+    btn.className = "chip" + (cat === activeCategory ? " active" : "");
+    btn.textContent = cat;
+    btn.onclick = () => { activeCategory = cat; renderCategories(); renderCatalog(); };
+    wrap.appendChild(btn);
+  });
+}
+
+function renderCatalog(){
+  const wrap = document.getElementById("catalog");
+  const list = activeCategory === "Semua" ? products : products.filter(p => p.category === activeCategory);
+  wrap.innerHTML = "";
+  if(list.length === 0){
+    wrap.style.display = "block";
+    wrap.innerHTML = '<div class="empty-state">Belum ada produk di kategori ini.</div>';
+    return;
+  }
+  wrap.style.display = "grid";
+  const waNum = (profile.whatsapp || "").replace(/[^0-9]/g,"");
+  list.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "card";
+    const habis = p.stock === "habis";
+    const msg = encodeURIComponent("Halo, saya mau pesan " + p.name + " dari katalog toko.");
+    card.innerHTML = `
+      <div class="card-media"${p.image ? ` style="background-image:url('${p.image}');background-size:cover;background-position:center;"` : ""}>
+        ${p.featured ? '<span class="stock-tag">Terlaris</span>' : (habis ? '<span class="stock-tag habis">Habis</span>' : "")}
+        ${p.image ? "" : `<span>${p.name}</span>`}
+      </div>
+      <div class="card-body">
+        <div class="card-name">${p.name}</div>
+        <p class="card-desc">${p.desc || ""}</p>
+        <div class="card-footer">
+          <span class="price">${formatRupiah(p.price)}</span>
+          <button class="order-btn" ${habis ? "disabled" : ""} aria-label="Pesan ${p.name}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>`;
+    if(!habis){
+      card.querySelector(".order-btn").onclick = () => window.open("https://wa.me/" + waNum + "?text=" + msg, "_blank");
+    }
+    wrap.appendChild(card);
+  });
+}
+
+(async function init(){
+  await loadData();
+  renderProfile();
+  renderCategories();
+  renderCatalog();
+})();
+</script>
+</body>
+</html>
