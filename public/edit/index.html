@@ -177,16 +177,8 @@
     color:#b7b2a3;font-size:10px;text-align:center;line-height:1.3;
   }
   .avatar-thumb{border-radius:50%;}
-  .cover-preview{
-    width:100%;max-width:420px;height:140px;object-fit:cover;
-    border-radius:12px;border:1px solid var(--line);background:#fff;display:block;
-  }
-  .cover-placeholder{
-    width:100%;max-width:420px;height:140px;border-radius:12px;
-    border:1.5px dashed var(--line);background:var(--cream);
-    display:flex;align-items:center;justify-content:center;
-    color:#b7b2a3;font-size:12px;text-align:center;
-  }
+  .cover-thumb{width:180px;aspect-ratio:3/1;border-radius:10px;object-fit:cover;border:1px solid var(--line);background:#fff;flex:none;}
+  .cover-thumb-placeholder{width:180px;aspect-ratio:3/1;border-radius:10px;flex:none;border:1.5px dashed var(--line);background:var(--cream);display:flex;align-items:center;justify-content:center;color:#b7b2a3;font-size:10px;text-align:center;line-height:1.3;}
   .image-upload-controls{display:flex;flex-direction:column;gap:6px;}
   .file-label{
     display:inline-flex;align-items:center;gap:6px;
@@ -337,16 +329,18 @@
         </div>
       </div>
       <div class="field full">
-        <label>Foto Sampul Katalog</label>
-        <div id="coverPreviewWrap"></div>
-        <div class="image-upload-controls" style="margin-top:10px;">
-          <label class="file-label">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg>
-            Unggah Foto Sampul
-            <input type="file" accept="image/*" id="coverInput">
-          </label>
-          <button type="button" class="btn btn-ghost btn-sm" id="removeCoverBtn" style="display:none;">Hapus Sampul</button>
-          <span class="image-size-note">Tampil sebagai banner di atas katalog · JPG/PNG, otomatis dikompres · disarankan foto landscape</span>
+        <label>Foto Cover / Banner Toko</label>
+        <div class="image-upload" id="coverUploadWrap">
+          <div id="coverPreviewWrap"></div>
+          <div class="image-upload-controls">
+            <label class="file-label">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg>
+              Unggah Cover
+              <input type="file" accept="image/*" id="coverInput">
+            </label>
+            <button type="button" class="btn btn-ghost btn-sm" id="removeCoverBtn" style="display:none;">Hapus Cover</button>
+            <span class="image-size-note">Disarankan foto lebar (rasio ±3:1), otomatis dikompres</span>
+          </div>
         </div>
       </div>
       <div class="field"><label>Nama Toko</label><input id="f_name" type="text"></div>
@@ -671,8 +665,8 @@ document.getElementById("removeAvatarBtn").onclick = () => {
 function renderCoverPreview(){
   const wrap = document.getElementById("coverPreviewWrap");
   wrap.innerHTML = profile.cover
-    ? `<img src="${profile.cover}" class="cover-preview" alt="Foto sampul katalog">`
-    : `<div class="cover-placeholder">Belum ada foto sampul</div>`;
+    ? `<img src="${profile.cover}" class="cover-thumb" alt="Foto cover toko">`
+    : `<div class="cover-thumb-placeholder">Belum ada cover</div>`;
   document.getElementById("removeCoverBtn").style.display = profile.cover ? "inline-flex" : "none";
 }
 
@@ -681,7 +675,7 @@ document.getElementById("coverInput").onchange = async (e) => {
   if(!file) return;
   readProfileForm();
   try{
-    profile.cover = await resizeImageFile(file, 1200, 0.75);
+    profile.cover = await resizeImageFile(file, 1200, 0.72);
     renderCoverPreview();
   }catch(err){
     showStatus("Gagal memproses gambar");
