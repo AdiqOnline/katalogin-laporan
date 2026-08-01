@@ -552,6 +552,7 @@ async function saveData(){
   }
 
   const btn = document.getElementById("saveBtn");
+  const btn = document.getElementById("saveBtn2");
   btn.disabled = true;
   try{
     const res = await fetch("/api/save-data", {
@@ -572,6 +573,7 @@ async function saveData(){
 
 function showStatus(msg){
   const el = document.getElementById("statusMsg");
+  const el = document.getElementById("statusMsg2");
   el.textContent = msg;
   el.classList.add("show");
   setTimeout(() => el.classList.remove("show"), 2200);
