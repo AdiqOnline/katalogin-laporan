@@ -123,7 +123,13 @@
   .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
   .field{display:flex;flex-direction:column;gap:6px;}
   .field.full{grid-column:1/-1;}
-  .field label{font-size:12px;font-weight:600;color:var(--ink-soft);}
+  .field label{font-size:12px;font-weight:600;color:var(--ink-soft);display:flex;align-items:center;gap:6px;}
+  .new-badge{
+    display:inline-flex;align-items:center;
+    background:var(--ok-soft);color:var(--ok);
+    font-size:10px;font-weight:700;letter-spacing:0.03em;
+    padding:2px 8px;border-radius:100px;text-transform:uppercase;
+  }
   .field input,.field textarea,.field select{
     padding:10px 12px;border-radius:9px;border:1px solid var(--line);
     font-size:13.5px;color:var(--ink);background:var(--cream);
@@ -667,7 +673,10 @@ function renderProductsForm(){
           </div>
         </div>
       </div>
-      <div class="field"><label>Nama Produk</label><input type="text" data-f="name" value="${escapeHtml(p.name)}"></div>
+      <div class="field">
+        <label>Nama Produk ${p.isNew ? '<span class="new-badge">Baru</span>' : ""}</label>
+        <input type="text" data-f="name" value="${escapeHtml(p.name)}">
+      </div>
       <div class="field"><label>Kategori</label><input type="text" data-f="category" value="${escapeHtml(p.category)}"></div>
       <div class="field full"><label>Deskripsi Singkat</label><input type="text" data-f="desc" value="${escapeHtml(p.desc || "")}"></div>
       <div class="field"><label>Harga (Rp)</label><input type="number" data-f="price" value="${p.price}" min="0" step="500"></div>
@@ -764,7 +773,8 @@ function readProductsForm(){
       price: Number(get("price").value) || 0,
       stock: get("stock").value,
       featured: get("featured").checked,
-      image: products[idx] ? (products[idx].image || null) : null
+      image: products[idx] ? (products[idx].image || null) : null,
+      isNew: products[idx] ? !!products[idx].isNew : false
     });
   });
   products = updated;
@@ -772,7 +782,8 @@ function readProductsForm(){
 
 function addNewProduct(){
   readProductsForm();
-  products.unshift({id:"p" + Date.now(), name:"Produk Baru", desc:"", price:0, category:"Lainnya", stock:"tersedia", featured:false, image:null});
+  products.forEach(p => { p.isNew = false; });
+  products.unshift({id:"p" + Date.now(), name:"Produk Baru", desc:"", price:0, category:"Lainnya", stock:"tersedia", featured:false, image:null, isNew:true});
   renderProductsForm();
 }
 
