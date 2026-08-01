@@ -295,7 +295,7 @@
   <div class="tab-panel" data-tab-panel="katalog">
   <div class="panel">
     <div class="save-bar" style="margin-bottom:20px;">
-      <button class="btn btn-primary save-btn" id="saveBtn">
+      <button class="btn btn-primary" id="saveBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
         Simpan Perubahan
       </button>
@@ -331,7 +331,7 @@
 
   <div class="panel">
       <div class="save-bar" style="margin-bottom:20px;">
-      <button class="btn btn-primary save-btn" id="saveBtn">
+      <button class="btn btn-primary" id="saveBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
         Simpan Perubahan
       </button>
@@ -551,7 +551,7 @@ async function saveData(){
     return;
   }
 
-  const buttons = document.querySelectorAll(".save-btn");
+  const buttons = document.querySelectorAll(".btn-primari");
   buttons.forEach(btn => btn.disabled = true);
   try{
     const res = await fetch("/api/save-data", {
