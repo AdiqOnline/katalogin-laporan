@@ -39,7 +39,7 @@
   .cover::after{content:"";position:absolute;inset:0;background-image:repeating-linear-gradient(45deg, rgba(255,255,255,0.035) 0 2px, transparent 2px 14px);}
 
   .profile{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 24px 22px;margin-top:-46px;}
-  .avatar{width:92px;height:92px;border-radius:50%;background:linear-gradient(145deg,#1a5455,var(--teal-deep));border:4px solid var(--cream);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:32px;font-weight:600;color:var(--gold-soft);overflow:hidden;position: relative;z-index: 3;}
+  .avatar{width:92px;height:92px;border-radius:50%;background:linear-gradient(145deg,#1a5455,var(--teal-deep));border:4px solid var(--cream);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:32px;font-weight:600;color:var(--gold-soft);overflow:hidden;}
   .badge{display:inline-flex;align-items:center;gap:5px;margin-top:12px;padding:4px 11px;border-radius:100px;background:var(--gold-soft);color:#5c4a12;font-size:11.5px;font-weight:600;letter-spacing:0.02em;}
   .badge svg{width:11px;height:11px;}
   .brand-name{font-family:'Fraunces',serif;font-weight:600;font-size:26px;margin:10px 0 4px;letter-spacing:-0.01em;}
@@ -56,32 +56,6 @@
   .btn-primary:hover{background:#0b2f30;transform:translateY(-1px);box-shadow:0 6px 16px rgba(15,61,62,0.25);}
   .btn-ghost{background:transparent;border-color:var(--line);color:var(--ink);}
   .btn-ghost:hover{border-color:var(--gold);background:rgba(212,169,74,0.08);}
-
-  /* === Search bar === */
-  .search-wrap{padding:18px 24px 0;}
-  .search-box{position:relative;display:flex;align-items:center;}
-  .search-box svg{position:absolute;left:14px;width:17px;height:17px;color:var(--ink-soft);pointer-events:none;}
-  .search-input{
-    width:100%;
-    padding:12px 14px 12px 40px;
-    border-radius:12px;
-    border:1px solid var(--line);
-    background:#fff;
-    font-size:13.5px;
-    font-family:inherit;
-    color:var(--ink);
-    transition:border-color .15s ease, box-shadow .15s ease;
-  }
-  .search-input::placeholder{color:#a7a297;}
-  .search-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,169,74,0.15);}
-  .search-clear{
-    position:absolute;right:8px;width:26px;height:26px;border-radius:50%;
-    border:none;background:var(--line);color:var(--ink-soft);
-    display:none;align-items:center;justify-content:center;cursor:pointer;
-  }
-  .search-clear svg{width:12px;height:12px;position:static;color:inherit;}
-  .search-clear.show{display:flex;}
-  .search-clear:hover{background:var(--gold-soft);color:#5c4a12;}
 
   .categories{display:flex;gap:8px;overflow-x:auto;padding:18px 24px 6px;scrollbar-width:none;}
   .categories::-webkit-scrollbar{display:none;}
@@ -100,8 +74,6 @@
   .card-media span{font-family:'Fraunces',serif;font-size:13px;color:var(--teal-deep);opacity:0.55;text-align:center;padding:0 8px;}
   .stock-tag{position:absolute;top:8px;left:8px;background:rgba(255,255,255,0.92);color:var(--teal-deep);font-size:10px;font-weight:700;padding:3px 8px;border-radius:100px;letter-spacing:0.02em;}
   .stock-tag.habis{color:#a94442;}
-  .new-tag{position:absolute;top:8px;right:8px;background:#2E7D4F;color:#fff;font-size:10px;font-weight:700;padding:3px 9px;border-radius:100px;letter-spacing:0.03em;box-shadow:0 2px 6px rgba(46,125,79,0.35);display:flex;align-items:center;gap:3px;}
-  .new-tag svg{width:9px;height:9px;flex:none;}
   .card-body{padding:12px 12px 14px;display:flex;flex-direction:column;gap:4px;flex:1;}
   .card-name{font-size:13.5px;font-weight:600;line-height:1.35;}
   .card-desc{font-size:11.5px;color:var(--ink-soft);line-height:1.4;margin:0 0 6px;}
@@ -125,7 +97,6 @@
   @media (max-width:360px){
     .catalog{grid-template-columns:1fr 1fr;gap:10px;padding:10px 16px;}
     .profile{padding:0 16px 20px;}
-    .search-wrap{padding:16px 16px 0;}
     .categories{padding:16px 16px 6px;}
     .section-title{padding:18px 16px 4px;}
   }
@@ -135,7 +106,7 @@
 <body>
 <div class="page" id="page">
 
-  <div class="cover"></div>
+  <div class="cover" id="coverEl"></div>
 
   <div class="profile">
     <div class="avatar" id="avatarInitials">…</div>
@@ -162,23 +133,6 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8 2v4M16 2v4M4 10h16"/></svg>
         Instagram
       </a>
-    </div>
-  </div>
-
-  <div class="search-wrap">
-    <div class="search-box">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
-      <input
-        type="text"
-        id="searchInput"
-        class="search-input"
-        placeholder="Cari produk, misal: keripik, sambal, jamu…"
-        autocomplete="off"
-        aria-label="Cari produk"
-      >
-      <button class="search-clear" id="searchClear" aria-label="Hapus pencarian" type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
     </div>
   </div>
 
@@ -210,26 +164,27 @@
 const DEFAULT_PROFILE = {
   name: "Kedai Rasa Nusantara",
   initials: "KR",
+  avatar: null,
+  cover: null,
   tagline: "Camilan & bumbu rumahan asli buatan tangan, dikirim segar dari dapur kami ke rumah Anda.",
-  location: "Parepare, Sulawesi Selatan",
+  location: "Bandung, Jawa Barat",
   hours: "Buka 08.00–20.00",
   whatsapp: "6281234567890",
-  instagram: "Adiq.online"
+  instagram: "kedairasanusantara"
 };
 
 const DEFAULT_PRODUCTS = [
-  {id:"p1", name:"Keripik Tempe Original", desc:"Renyah, tanpa pengawet · 250g", price:22000, category:"Camilan", stock:"tersedia", featured:true, addedAt:"2026-06-01"},
-  {id:"p2", name:"Sambal Bawang Rumahan", desc:"Pedas gurih · botol 150ml", price:28000, category:"Bumbu", stock:"tersedia", featured:false, addedAt:"2026-06-05"},
-  {id:"p3", name:"Jamu Kunyit Asam", desc:"Segar alami · botol 350ml", price:15000, category:"Minuman", stock:"tersedia", featured:false, addedAt:"2026-06-10"},
-  {id:"p4", name:"Bumbu Rendang Siap Pakai", desc:"Rempah asli Padang · 200g", price:35000, category:"Bumbu", stock:"habis", featured:false, addedAt:"2026-06-15"},
-  {id:"p5", name:"Paket Hampers Nusantara", desc:"Isi 5 camilan pilihan", price:95000, category:"Paket Hampers", stock:"tersedia", featured:false, addedAt:"2026-06-20"},
-  {id:"p6", name:"Es Cincau Gula Aren", desc:"Manis alami · cup 300ml", price:12000, category:"Minuman", stock:"tersedia", featured:false, addedAt:"2026-07-28"}
+  {id:"p1", name:"Keripik Tempe Original", desc:"Renyah, tanpa pengawet · 250g", price:22000, category:"Camilan", stock:"tersedia", featured:true},
+  {id:"p2", name:"Sambal Bawang Rumahan", desc:"Pedas gurih · botol 150ml", price:28000, category:"Bumbu", stock:"tersedia", featured:false},
+  {id:"p3", name:"Jamu Kunyit Asam", desc:"Segar alami · botol 350ml", price:15000, category:"Minuman", stock:"tersedia", featured:false},
+  {id:"p4", name:"Bumbu Rendang Siap Pakai", desc:"Rempah asli Padang · 200g", price:35000, category:"Bumbu", stock:"habis", featured:false},
+  {id:"p5", name:"Paket Hampers Nusantara", desc:"Isi 5 camilan pilihan", price:95000, category:"Paket Hampers", stock:"tersedia", featured:false},
+  {id:"p6", name:"Es Cincau Gula Aren", desc:"Manis alami · cup 300ml", price:12000, category:"Minuman", stock:"tersedia", featured:false}
 ];
 
 let profile = DEFAULT_PROFILE;
 let products = DEFAULT_PRODUCTS;
 let activeCategory = "Semua";
-let searchQuery = "";
 
 function formatRupiah(n){
   return "Rp " + Number(n).toLocaleString("id-ID");
@@ -249,6 +204,12 @@ async function loadData(){
 }
 
 function renderProfile(){
+  const coverEl = document.getElementById("coverEl");
+  if(profile.cover){
+    coverEl.style.backgroundImage = `url('${profile.cover}')`;
+    coverEl.style.backgroundSize = "cover";
+    coverEl.style.backgroundPosition = "center";
+  }
   const avatarEl = document.getElementById("avatarInitials");
   if(profile.avatar){
     avatarEl.innerHTML = `<img src="${profile.avatar}" alt="${profile.name}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
@@ -282,58 +243,25 @@ function renderCategories(){
   });
 }
 
-function getNewestProductId(){
-  let newestId = null;
-  let newestTime = -Infinity;
-  products.forEach(p => {
-    if(!p.addedAt) return;
-    const t = new Date(p.addedAt).getTime();
-    if(!isNaN(t) && t > newestTime){
-      newestTime = t;
-      newestId = p.id;
-    }
-  });
-  return newestId;
-}
-
-function getFilteredList(){
-  let list = activeCategory === "Semua" ? products : products.filter(p => p.category === activeCategory);
-  const q = searchQuery.trim().toLowerCase();
-  if(q){
-    list = list.filter(p =>
-      (p.name || "").toLowerCase().includes(q) ||
-      (p.desc || "").toLowerCase().includes(q) ||
-      (p.category || "").toLowerCase().includes(q)
-    );
-  }
-  return list;
-}
-
 function renderCatalog(){
   const wrap = document.getElementById("catalog");
-  const list = getFilteredList();
+  const list = activeCategory === "Semua" ? products : products.filter(p => p.category === activeCategory);
   wrap.innerHTML = "";
   if(list.length === 0){
     wrap.style.display = "block";
-    const q = searchQuery.trim();
-    wrap.innerHTML = q
-      ? `<div class="empty-state">Tidak ada produk yang cocok dengan "${q}".</div>`
-      : '<div class="empty-state">Belum ada produk di kategori ini.</div>';
+    wrap.innerHTML = '<div class="empty-state">Belum ada produk di kategori ini.</div>';
     return;
   }
   wrap.style.display = "grid";
   const waNum = (profile.whatsapp || "").replace(/[^0-9]/g,"");
-  const newestId = getNewestProductId();
   list.forEach(p => {
     const card = document.createElement("div");
     card.className = "card";
     const habis = p.stock === "habis";
-    const isNew = newestId && p.id === newestId;
     const msg = encodeURIComponent("Halo, saya mau pesan " + p.name + " dari katalog toko.");
     card.innerHTML = `
       <div class="card-media"${p.image ? ` style="background-image:url('${p.image}');background-size:cover;background-position:center;"` : ""}>
         ${p.featured ? '<span class="stock-tag">Terlaris</span>' : (habis ? '<span class="stock-tag habis">Habis</span>' : "")}
-        ${isNew ? `<span class="new-tag"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 15 8 22 9 17 14 18 21 12 17.5 6 21 7 14 2 9 9 8Z"/></svg>Baru</span>` : ""}
         ${p.image ? "" : `<span>${p.name}</span>`}
       </div>
       <div class="card-body">
@@ -353,29 +281,11 @@ function renderCatalog(){
   });
 }
 
-function setupSearch(){
-  const input = document.getElementById("searchInput");
-  const clearBtn = document.getElementById("searchClear");
-  input.addEventListener("input", () => {
-    searchQuery = input.value;
-    clearBtn.classList.toggle("show", searchQuery.length > 0);
-    renderCatalog();
-  });
-  clearBtn.addEventListener("click", () => {
-    searchQuery = "";
-    input.value = "";
-    clearBtn.classList.remove("show");
-    input.focus();
-    renderCatalog();
-  });
-}
-
 (async function init(){
   await loadData();
   renderProfile();
   renderCategories();
   renderCatalog();
-  setupSearch();
 })();
 </script>
 </body>
