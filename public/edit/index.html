@@ -28,7 +28,7 @@
   a{color:inherit;}
   button,input,select,textarea{font-family:inherit;}
   :focus-visible{outline:3px solid var(--gold);outline-offset:2px;}
-
+ 
   /* ---------- GATE ---------- */
   .gate{
     min-height:100vh;
@@ -68,11 +68,11 @@
   .gate-btn:hover{background:#0b2f30;}
   .gate-error{color:var(--danger);font-size:12.5px;margin-top:8px;min-height:16px;}
   .gate-note{margin-top:18px;font-size:11px;color:#9b968a;line-height:1.5;}
-
+ 
   /* ---------- APP SHELL ---------- */
   .app{display:none;max-width:760px;margin:0 auto;padding:28px 20px 80px;}
   .app.visible{display:block;}
-
+ 
   .topbar{
     display:flex;align-items:center;justify-content:space-between;
     margin-bottom:24px;flex-wrap:wrap;gap:12px;
@@ -85,9 +85,9 @@
     font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:100px;
   }
   .warn-chip svg{width:12px;height:12px;}
-
+ 
   .save-bar{
-    display:flex;align-items:center;gap:10px;
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
   }
   .btn{
     padding:10px 18px;border-radius:10px;border:1px solid transparent;
@@ -97,19 +97,20 @@
   .btn svg{width:14px;height:14px;}
   .btn-primary{background:var(--teal-deep);color:var(--cream);}
   .btn-primary:hover{background:#0b2f30;}
+  .btn-primary:disabled{opacity:0.6;cursor:not-allowed;}
   .btn-ghost{background:#fff;border-color:var(--line);color:var(--ink);}
   .btn-ghost:hover{border-color:var(--gold);}
   .btn-danger{background:var(--danger-soft);color:var(--danger);}
   .btn-danger:hover{background:#f0d5cc;}
   .btn-sm{padding:7px 12px;font-size:12.5px;}
-
+ 
   .status-msg{
     font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:8px;
     background:var(--ok-soft);color:var(--ok);
     opacity:0;transition:opacity .3s ease;
   }
   .status-msg.show{opacity:1;}
-
+ 
   .panel{
     background:#fff;border:1px solid var(--line);border-radius:var(--radius);
     padding:20px;margin-bottom:20px;
@@ -118,7 +119,7 @@
     font-size:13px;text-transform:uppercase;letter-spacing:0.06em;
     color:var(--gold);margin:0 0 16px;font-weight:700;
   }
-
+ 
   .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
   .field{display:flex;flex-direction:column;gap:6px;}
   .field.full{grid-column:1/-1;}
@@ -129,7 +130,7 @@
   }
   .field textarea{resize:vertical;min-height:56px;}
   .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--gold);}
-
+ 
   .product-list{display:flex;flex-direction:column;gap:12px;}
   .product-row{
     border:1px solid var(--line);border-radius:12px;padding:14px;
@@ -142,21 +143,21 @@
   }
   .toggle-group{display:flex;gap:14px;font-size:12px;color:var(--ink-soft);}
   .toggle-group label{display:flex;align-items:center;gap:5px;cursor:pointer;}
-
+ 
   .add-product-btn{
     width:100%;padding:12px;border-radius:10px;border:1.5px dashed var(--line);
     background:transparent;color:var(--ink-soft);font-weight:600;font-size:13px;
     cursor:pointer;transition:all .15s ease;
   }
   .add-product-btn:hover{border-color:var(--gold);color:var(--ink);background:rgba(212,169,74,0.06);}
-
+ 
   .link-hint{
     font-size:12px;color:var(--ink-soft);background:rgba(15,61,62,0.05);
     border:1px dashed var(--line);border-radius:10px;padding:12px 14px;
     line-height:1.6;margin-top:6px;
   }
   .link-hint code{background:#fff;padding:1px 6px;border-radius:5px;border:1px solid var(--line);}
-
+ 
   /* ---------- UPLOAD FOTO ---------- */
   .image-upload{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
   .thumb{
@@ -180,7 +181,7 @@
   .file-label:hover{border-color:var(--gold);background:rgba(212,169,74,0.06);}
   .file-label input[type="file"]{display:none;}
   .image-size-note{font-size:11px;color:#9b968a;}
-
+ 
   /* ---------- TAB DASHBOARD ---------- */
   .dash-tabs{
     display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid var(--line);
@@ -195,7 +196,7 @@
   .dash-tab.active{color:var(--teal-deep);border-bottom-color:var(--teal-deep);}
   .tab-panel{display:none;}
   .tab-panel.active{display:block;}
-
+ 
   /* ---------- KARTU STATISTIK ---------- */
   .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
   .stat-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:6px;}
@@ -207,7 +208,7 @@
   .top-list{display:flex;flex-direction:column;gap:2px;}
   .top-list li{display:flex;justify-content:space-between;font-size:13.5px;padding:10px 2px;border-bottom:1px dashed var(--line);}
   .top-list li:last-child{border-bottom:none;}
-
+ 
   /* ---------- TABEL PENJUALAN ---------- */
   .table-scroll{overflow-x:auto;}
   .sales-table{width:100%;border-collapse:collapse;font-size:13px;}
@@ -217,11 +218,11 @@
   }
   .sales-table td{padding:10px 8px;border-bottom:1px solid var(--line);white-space:nowrap;}
   .sales-table tr:last-child td{border-bottom:none;}
-
+ 
   @media (max-width:700px){
     .stat-grid{grid-template-columns:1fr 1fr;}
   }
-
+ 
   @media (max-width:560px){
     .field-grid,.product-row{grid-template-columns:1fr;}
     .topbar{flex-direction:column;align-items:flex-start;}
@@ -230,7 +231,7 @@
 </style>
 </head>
 <body>
-
+ 
 <!-- GERBANG PASSWORD -->
 <div class="gate" id="gate">
   <div class="gate-card">
@@ -245,7 +246,7 @@
     <!-- <div class="gate-note">Kata sandi diatur lewat environment variable <strong>EDITOR_PASSWORD</strong> di pengaturan situs Netlify Anda.</div>-->
   </div>
 </div>
-
+ 
 <!-- APLIKASI EDITOR -->
 <div class="app" id="app">
   <div class="topbar">
@@ -258,13 +259,13 @@
       Hanya untuk internal
     </span>
   </div>
-
+ 
   <div class="dash-tabs" id="dashTabs">
     <button class="dash-tab active" data-tab="ringkasan">Ringkasan</button>
     <button class="dash-tab" data-tab="katalog">Kelola Katalog</button>
     <button class="dash-tab" data-tab="penjualan">Laporan Penjualan</button>
   </div>
-
+ 
   <!-- ================= TAB: RINGKASAN ================= -->
   <div class="tab-panel active" data-tab-panel="ringkasan">
     <div class="stat-grid">
@@ -290,7 +291,7 @@
       <ul class="top-list" id="topProductsList"></ul>
     </div>
   </div>
-
+ 
   <!-- ================= TAB: KELOLA KATALOG ================= -->
   <div class="tab-panel" data-tab-panel="katalog">
   <div class="panel">
@@ -328,27 +329,27 @@
       <div class="field"><label>Username Instagram</label><input id="f_instagram" type="text" placeholder="namatoko"></div>
     </div>
   </div>
-
+ 
   <div class="panel">
       <div class="save-bar" style="margin-bottom:20px;">
-      <button class="btn btn-primary" id="saveBtn">
+      <button class="btn btn-primary" id="saveBtn2">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
         Simpan Perubahan
       </button>
       <button class="btn btn-ghost" id="resetBtn2">Kembalikan ke Default</button>
       <button class="btn btn-ghost" id="addProductBtn2">+ Tambah Produk</button>
-      <span class="status-msg" id="statusMsg">Tersimpan ✓</span>
+      <span class="status-msg" id="statusMsg2">Tersimpan ✓</span>
     </div>
     <h2>Produk Katalog</h2>
     <div class="product-list" id="productList"></div>
     <button class="add-product-btn" id="addProductBtn" style="margin-top:12px;">+ Tambah Produk</button>
   </div>
-
+ 
   <div class="link-hint">
     Bagikan tautan tanpa <code>/edit</code> ke pelanggan (misalnya <code>www.toko.com</code>). Simpan tautan dengan <code>/edit</code> hanya untuk Anda sendiri — jangan disebarluaskan, karena siapa pun yang membukanya bisa mengubah katalog.
   </div>
   </div><!-- /tab-panel katalog -->
-
+ 
   <!-- ================= TAB: LAPORAN PENJUALAN ================= -->
   <div class="tab-panel" data-tab-panel="penjualan">
     <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
@@ -365,7 +366,7 @@
         <span class="stat-value" id="sale_stat_top" style="font-size:15px;">—</span>
       </div>
     </div>
-
+ 
     <div class="panel">
       <h2>Catat Penjualan Selesai</h2>
       <p style="font-size:12.5px;color:var(--ink-soft);margin:-10px 0 16px;">
@@ -390,7 +391,7 @@
         Catat Penjualan
       </button>
     </div>
-
+ 
     <div class="panel">
       <h2>Riwayat Penjualan</h2>
       <div class="table-scroll">
@@ -404,10 +405,10 @@
     </div>
   </div>
 </div>
-
+ 
 <script>
 let sessionPassword = null; // disimpan sementara di memori setelah login, dipakai saat menyimpan
-
+ 
 const DEFAULT_PROFILE = {
   name: "Kedai Rasa Nusantara",
   initials: "KR",
@@ -418,7 +419,7 @@ const DEFAULT_PROFILE = {
   whatsapp: "6281234567890",
   instagram: "Adiq.online"
 };
-
+ 
 const DEFAULT_PRODUCTS = [
   {id:"p1", name:"Keripik Tempe Original", desc:"Renyah, tanpa pengawet · 250g", price:22000, category:"Camilan", stock:"tersedia", featured:true, image:null},
   {id:"p2", name:"Sambal Bawang Rumahan", desc:"Pedas gurih · botol 150ml", price:28000, category:"Bumbu", stock:"tersedia", featured:false, image:null},
@@ -427,11 +428,11 @@ const DEFAULT_PRODUCTS = [
   {id:"p5", name:"Paket Hampers Nusantara", desc:"Isi 5 camilan pilihan", price:95000, category:"Paket Hampers", stock:"tersedia", featured:false, image:null},
   {id:"p6", name:"Es Cincau Gula Aren", desc:"Manis alami · cup 300ml", price:12000, category:"Minuman", stock:"tersedia", featured:false, image:null}
 ];
-
+ 
 let profile = structuredClone(DEFAULT_PROFILE);
 let products = structuredClone(DEFAULT_PRODUCTS);
 let sales = [];
-
+ 
 function formatRupiah(n){
   return "Rp " + Number(n || 0).toLocaleString("id-ID");
 }
@@ -441,7 +442,7 @@ function formatDateID(dateStr){
   if(isNaN(d)) return dateStr;
   return d.toLocaleDateString("id-ID", { day:"numeric", month:"short", year:"numeric" });
 }
-
+ 
 // ---------- HELPER: RESIZE & KOMPRES FOTO ----------
 function resizeImageFile(file, maxDim, quality){
   return new Promise((resolve, reject) => {
@@ -468,11 +469,11 @@ function resizeImageFile(file, maxDim, quality){
     reader.readAsDataURL(file);
   });
 }
-
+ 
 // ---------- GATE ----------
 document.getElementById("pwSubmit").onclick = tryLogin;
 document.getElementById("pwInput").addEventListener("keydown", e => { if(e.key === "Enter") tryLogin(); });
-
+ 
 async function tryLogin(){
   const val = document.getElementById("pwInput").value;
   const btn = document.getElementById("pwSubmit");
@@ -500,7 +501,7 @@ async function tryLogin(){
   btn.disabled = false;
   btn.textContent = "Masuk";
 }
-
+ 
 // ---------- LOAD / SAVE ----------
 async function loadData(){
   try{
@@ -512,7 +513,7 @@ async function loadData(){
     }
   }catch(e){ /* pakai default */ }
 }
-
+ 
 async function loadSales(){
   try{
     const res = await fetch("/api/get-sales");
@@ -522,7 +523,7 @@ async function loadSales(){
     }
   }catch(e){ sales = []; }
 }
-
+ 
 async function persistSales(){
   try{
     const res = await fetch("/api/save-sales", {
@@ -539,19 +540,19 @@ async function persistSales(){
     showStatus("Tidak bisa terhubung ke server");
   }
 }
-
+ 
 async function saveData(){
   readProfileForm();
   readProductsForm();
-
+ 
   const payload = JSON.stringify({ password: sessionPassword, profile, products });
   const sizeMB = (new Blob([payload]).size / (1024 * 1024));
   if(sizeMB > 4.5){
     showStatus("Total ukuran foto terlalu besar (" + sizeMB.toFixed(1) + " MB). Kurangi jumlah/ukuran foto.");
     return;
   }
-
-  const buttons = document.querySelectorAll(".btn-primari");
+ 
+  const buttons = document.querySelectorAll(".btn-primary");
   buttons.forEach(btn => btn.disabled = true);
   try{
     const res = await fetch("/api/save-data", {
@@ -567,9 +568,9 @@ async function saveData(){
   }catch(e){
     showStatus("Tidak bisa terhubung ke server");
   }
-  btn.disabled = false;
+  buttons.forEach(btn => btn.disabled = false);
 }
-
+ 
 function showStatus(msg){
   const elements = document.querySelectorAll(".status-msg");
   elements.forEach(el => {
@@ -577,7 +578,8 @@ function showStatus(msg){
     el.classList.add("show");
     setTimeout(() => el.classList.remove("show"), 2200);
   });
-
+}
+ 
 // ---------- FORM: PROFIL ----------
 function renderProfileForm(){
   document.getElementById("f_name").value = profile.name || "";
@@ -601,7 +603,7 @@ function readProfileForm(){
     avatar: profile.avatar || null
   };
 }
-
+ 
 function renderAvatarPreview(){
   const wrap = document.getElementById("avatarPreviewWrap");
   wrap.innerHTML = profile.avatar
@@ -609,7 +611,7 @@ function renderAvatarPreview(){
     : `<div class="thumb-placeholder">Belum ada foto</div>`;
   document.getElementById("removeAvatarBtn").style.display = profile.avatar ? "inline-flex" : "none";
 }
-
+ 
 document.getElementById("avatarInput").onchange = async (e) => {
   const file = e.target.files[0];
   if(!file) return;
@@ -622,13 +624,13 @@ document.getElementById("avatarInput").onchange = async (e) => {
   }
   e.target.value = "";
 };
-
+ 
 document.getElementById("removeAvatarBtn").onclick = () => {
   readProfileForm();
   profile.avatar = null;
   renderAvatarPreview();
 };
-
+ 
 // ---------- FORM: PRODUK ----------
 function renderProductsForm(){
   const wrap = document.getElementById("productList");
@@ -676,15 +678,16 @@ function renderProductsForm(){
     `;
     wrap.appendChild(row);
   });
-
+ 
   wrap.querySelectorAll("[data-remove]").forEach(btn => {
     btn.onclick = () => {
       const i = Number(btn.dataset.remove);
+      readProductsForm();
       products.splice(i, 1);
       renderProductsForm();
     };
   });
-
+ 
   wrap.querySelectorAll(".product-image-input").forEach(input => {
     input.onchange = async (e) => {
       const file = e.target.files[0];
@@ -699,7 +702,7 @@ function renderProductsForm(){
       }
     };
   });
-
+ 
   wrap.querySelectorAll(".remove-product-image-btn").forEach(btn => {
     btn.onclick = () => {
       const idx = Number(btn.closest(".product-row").dataset.idx);
@@ -709,7 +712,7 @@ function renderProductsForm(){
     };
   });
 }
-
+ 
 function readProductsForm(){
   const rows = document.querySelectorAll(".product-row");
   const updated = [];
@@ -728,27 +731,34 @@ function readProductsForm(){
   });
   products = updated;
 }
-
-document.getElementById("addProductBtn").onclick = () => {
-  products.push({id:"p" + Date.now(), name:"Produk Baru", desc:"", price:0, category:"Lainnya", stock:"tersedia", featured:false, image:null});
+ 
+function addNewProduct(){
+  readProductsForm();
+  products.unshift({id:"p" + Date.now(), name:"Produk Baru", desc:"", price:0, category:"Lainnya", stock:"tersedia", featured:false, image:null});
   renderProductsForm();
-};
-
+}
+ 
+document.getElementById("addProductBtn").onclick = addNewProduct;
+document.getElementById("addProductBtn2").onclick = addNewProduct;
+ 
 document.getElementById("saveBtn").onclick = saveData;
-
-document.getElementById("resetBtn").onclick = () => {
+document.getElementById("saveBtn2").onclick = saveData;
+ 
+function resetToDefault(){
   if(confirm("Kembalikan semua data ke contoh default? Perubahan yang belum disimpan akan hilang.")){
     profile = structuredClone(DEFAULT_PROFILE);
     products = structuredClone(DEFAULT_PRODUCTS);
     renderProfileForm();
     renderProductsForm();
   }
-};
-
+}
+document.getElementById("resetBtn").onclick = resetToDefault;
+document.getElementById("resetBtn2").onclick = resetToDefault;
+ 
 function escapeHtml(str){
   return String(str).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
 }
-
+ 
 // ---------- TAB NAVIGASI ----------
 document.querySelectorAll(".dash-tab").forEach(tab => {
   tab.onclick = () => {
@@ -760,18 +770,18 @@ document.querySelectorAll(".dash-tab").forEach(tab => {
     if(tab.dataset.tab === "penjualan") renderSalesTab();
   };
 });
-
+ 
 // ---------- TAB: RINGKASAN ----------
 function renderRingkasan(){
   document.getElementById("stat_produk").textContent = products.length;
   document.getElementById("stat_kategori").textContent = new Set(products.map(p => p.category)).size;
-
-  const ym = new Date().toISOString().slice(0, 7); // "2026-07"
+ 
+  const ym = new Date().toISOString().slice(0, 7); // contoh: "2026-08"
   const salesThisMonth = sales.filter(s => (s.date || "").startsWith(ym));
   const revenueThisMonth = salesThisMonth.reduce((sum, s) => sum + (s.total || 0), 0);
   document.getElementById("stat_revenue").textContent = formatRupiah(revenueThisMonth);
   document.getElementById("stat_transaksi").textContent = salesThisMonth.length;
-
+ 
   const tally = {};
   sales.forEach(s => { tally[s.productName] = (tally[s.productName] || 0) + Number(s.qty || 0); });
   const top = Object.entries(tally).sort((a, b) => b[1] - a[1]).slice(0, 5);
@@ -780,7 +790,7 @@ function renderRingkasan(){
     ? top.map(([name, qty]) => `<li><span>${escapeHtml(name)}</span><span><strong>${qty}</strong> terjual</span></li>`).join("")
     : `<li style="color:var(--ink-soft);border-bottom:none;">Belum ada data penjualan tercatat.</li>`;
 }
-
+ 
 // ---------- TAB: LAPORAN PENJUALAN ----------
 function populateProductSelect(){
   const sel = document.getElementById("s_product");
@@ -790,7 +800,7 @@ function populateProductSelect(){
   if(current && [...sel.options].some(o => o.value === current)) sel.value = current;
   updatePriceFromSelection();
 }
-
+ 
 function updatePriceFromSelection(){
   const sel = document.getElementById("s_product");
   const customWrap = document.getElementById("s_customNameWrap");
@@ -803,7 +813,7 @@ function updatePriceFromSelection(){
   }
 }
 document.getElementById("s_product").onchange = updatePriceFromSelection;
-
+ 
 document.getElementById("addSaleBtn").onclick = async () => {
   const sel = document.getElementById("s_product");
   const isCustom = sel.value === "__custom__";
@@ -812,40 +822,41 @@ document.getElementById("addSaleBtn").onclick = async () => {
   const unitPrice = Number(document.getElementById("s_price").value) || 0;
   const date = document.getElementById("s_date").value || new Date().toISOString().slice(0, 10);
   const note = document.getElementById("s_note").value.trim();
-
+ 
   if(!productName){ showStatus("Pilih atau isi nama produk dulu"); return; }
   if(qty <= 0){ showStatus("Jumlah harus lebih dari 0"); return; }
-
+ 
   sales.unshift({
     id: "s" + Date.now(),
     date, productName, qty, unitPrice,
     total: qty * unitPrice,
     note
   });
-
+ 
   document.getElementById("s_qty").value = 1;
   document.getElementById("s_note").value = "";
   document.getElementById("s_customName").value = "";
-
+ 
   await persistSales();
   renderSalesTab();
-}
-
+  renderRingkasan();
+};
+ 
 function renderSalesTab(){
   populateProductSelect();
   if(!document.getElementById("s_date").value){
     document.getElementById("s_date").value = new Date().toISOString().slice(0, 10);
   }
-
+ 
   const totalRevenue = sales.reduce((sum, s) => sum + (s.total || 0), 0);
   document.getElementById("sale_stat_revenue").textContent = formatRupiah(totalRevenue);
   document.getElementById("sale_stat_count").textContent = sales.length;
-
+ 
   const tally = {};
   sales.forEach(s => { tally[s.productName] = (tally[s.productName] || 0) + Number(s.qty || 0); });
   const topEntry = Object.entries(tally).sort((a, b) => b[1] - a[1])[0];
   document.getElementById("sale_stat_top").textContent = topEntry ? topEntry[0] : "—";
-
+ 
   const tbody = document.getElementById("salesTableBody");
   if(sales.length === 0){
     tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--ink-soft);padding:24px;">Belum ada penjualan tercatat.</td></tr>`;
@@ -863,7 +874,7 @@ function renderSalesTab(){
       <td><button class="btn btn-danger btn-sm" data-del-sale="${s.id}">Hapus</button></td>
     </tr>
   `).join("");
-
+ 
   tbody.querySelectorAll("[data-del-sale]").forEach(btn => {
     btn.onclick = async () => {
       if(!confirm("Hapus catatan penjualan ini?")) return;
@@ -874,7 +885,7 @@ function renderSalesTab(){
     };
   });
 }
-
+ 
 async function boot(){
   await loadData();
   await loadSales();
