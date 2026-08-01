@@ -177,6 +177,16 @@
     color:#b7b2a3;font-size:10px;text-align:center;line-height:1.3;
   }
   .avatar-thumb{border-radius:50%;}
+  .cover-preview{
+    width:100%;max-width:420px;height:140px;object-fit:cover;
+    border-radius:12px;border:1px solid var(--line);background:#fff;display:block;
+  }
+  .cover-placeholder{
+    width:100%;max-width:420px;height:140px;border-radius:12px;
+    border:1.5px dashed var(--line);background:var(--cream);
+    display:flex;align-items:center;justify-content:center;
+    color:#b7b2a3;font-size:12px;text-align:center;
+  }
   .image-upload-controls{display:flex;flex-direction:column;gap:6px;}
   .file-label{
     display:inline-flex;align-items:center;gap:6px;
@@ -326,6 +336,19 @@
           </div>
         </div>
       </div>
+      <div class="field full">
+        <label>Foto Sampul Katalog</label>
+        <div id="coverPreviewWrap"></div>
+        <div class="image-upload-controls" style="margin-top:10px;">
+          <label class="file-label">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5M12 3v12"/></svg>
+            Unggah Foto Sampul
+            <input type="file" accept="image/*" id="coverInput">
+          </label>
+          <button type="button" class="btn btn-ghost btn-sm" id="removeCoverBtn" style="display:none;">Hapus Sampul</button>
+          <span class="image-size-note">Tampil sebagai banner di atas katalog · JPG/PNG, otomatis dikompres · disarankan foto landscape</span>
+        </div>
+      </div>
       <div class="field"><label>Nama Toko</label><input id="f_name" type="text"></div>
       <div class="field"><label>Inisial Avatar (dipakai jika belum ada foto)</label><input id="f_initials" type="text" maxlength="3"></div>
       <div class="field full"><label>Tagline</label><textarea id="f_tagline"></textarea></div>
@@ -423,6 +446,7 @@ const DEFAULT_PROFILE = {
   name: "Kedai Rasa Nusantara",
   initials: "KR",
   avatar: null,
+  cover: null,
   tagline: "Camilan & bumbu rumahan asli buatan tangan, dikirim segar dari dapur kami ke rumah Anda.",
   location: "Parepare, Sulawesi Selatan",
   hours: "Buka 08.00–20.00",
@@ -601,6 +625,7 @@ function renderProfileForm(){
   document.getElementById("f_whatsapp").value = profile.whatsapp || "";
   document.getElementById("f_instagram").value = profile.instagram || "";
   renderAvatarPreview();
+  renderCoverPreview();
 }
 function readProfileForm(){
   profile = {
@@ -611,7 +636,8 @@ function readProfileForm(){
     hours: document.getElementById("f_hours").value.trim(),
     whatsapp: document.getElementById("f_whatsapp").value.trim(),
     instagram: document.getElementById("f_instagram").value.trim(),
-    avatar: profile.avatar || null
+    avatar: profile.avatar || null,
+    cover: profile.cover || null
   };
 }
 
@@ -640,6 +666,33 @@ document.getElementById("removeAvatarBtn").onclick = () => {
   readProfileForm();
   profile.avatar = null;
   renderAvatarPreview();
+};
+
+function renderCoverPreview(){
+  const wrap = document.getElementById("coverPreviewWrap");
+  wrap.innerHTML = profile.cover
+    ? `<img src="${profile.cover}" class="cover-preview" alt="Foto sampul katalog">`
+    : `<div class="cover-placeholder">Belum ada foto sampul</div>`;
+  document.getElementById("removeCoverBtn").style.display = profile.cover ? "inline-flex" : "none";
+}
+
+document.getElementById("coverInput").onchange = async (e) => {
+  const file = e.target.files[0];
+  if(!file) return;
+  readProfileForm();
+  try{
+    profile.cover = await resizeImageFile(file, 1200, 0.75);
+    renderCoverPreview();
+  }catch(err){
+    showStatus("Gagal memproses gambar");
+  }
+  e.target.value = "";
+};
+
+document.getElementById("removeCoverBtn").onclick = () => {
+  readProfileForm();
+  profile.cover = null;
+  renderCoverPreview();
 };
 
 // ---------- FORM: PRODUK ----------
