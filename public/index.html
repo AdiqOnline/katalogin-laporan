@@ -57,6 +57,32 @@
   .btn-ghost{background:transparent;border-color:var(--line);color:var(--ink);}
   .btn-ghost:hover{border-color:var(--gold);background:rgba(212,169,74,0.08);}
 
+  /* === Search bar === */
+  .search-wrap{padding:18px 24px 0;}
+  .search-box{position:relative;display:flex;align-items:center;}
+  .search-box svg{position:absolute;left:14px;width:17px;height:17px;color:var(--ink-soft);pointer-events:none;}
+  .search-input{
+    width:100%;
+    padding:12px 14px 12px 40px;
+    border-radius:12px;
+    border:1px solid var(--line);
+    background:#fff;
+    font-size:13.5px;
+    font-family:inherit;
+    color:var(--ink);
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  .search-input::placeholder{color:#a7a297;}
+  .search-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,169,74,0.15);}
+  .search-clear{
+    position:absolute;right:8px;width:26px;height:26px;border-radius:50%;
+    border:none;background:var(--line);color:var(--ink-soft);
+    display:none;align-items:center;justify-content:center;cursor:pointer;
+  }
+  .search-clear svg{width:12px;height:12px;position:static;color:inherit;}
+  .search-clear.show{display:flex;}
+  .search-clear:hover{background:var(--gold-soft);color:#5c4a12;}
+
   .categories{display:flex;gap:8px;overflow-x:auto;padding:18px 24px 6px;scrollbar-width:none;}
   .categories::-webkit-scrollbar{display:none;}
   .chip{flex:none;padding:8px 16px;border-radius:100px;font-size:13px;font-weight:600;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .15s ease;white-space:nowrap;}
@@ -97,6 +123,7 @@
   @media (max-width:360px){
     .catalog{grid-template-columns:1fr 1fr;gap:10px;padding:10px 16px;}
     .profile{padding:0 16px 20px;}
+    .search-wrap{padding:16px 16px 0;}
     .categories{padding:16px 16px 6px;}
     .section-title{padding:18px 16px 4px;}
   }
@@ -133,6 +160,23 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M8 2v4M16 2v4M4 10h16"/></svg>
         Instagram
       </a>
+    </div>
+  </div>
+
+  <div class="search-wrap">
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input
+        type="text"
+        id="searchInput"
+        class="search-input"
+        placeholder="Cari produk, misal: keripik, sambal, jamu…"
+        autocomplete="off"
+        aria-label="Cari produk"
+      >
+      <button class="search-clear" id="searchClear" aria-label="Hapus pencarian" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
     </div>
   </div>
 
@@ -183,6 +227,7 @@ const DEFAULT_PRODUCTS = [
 let profile = DEFAULT_PROFILE;
 let products = DEFAULT_PRODUCTS;
 let activeCategory = "Semua";
+let searchQuery = "";
 
 function formatRupiah(n){
   return "Rp " + Number(n).toLocaleString("id-ID");
@@ -235,13 +280,29 @@ function renderCategories(){
   });
 }
 
+function getFilteredList(){
+  let list = activeCategory === "Semua" ? products : products.filter(p => p.category === activeCategory);
+  const q = searchQuery.trim().toLowerCase();
+  if(q){
+    list = list.filter(p =>
+      (p.name || "").toLowerCase().includes(q) ||
+      (p.desc || "").toLowerCase().includes(q) ||
+      (p.category || "").toLowerCase().includes(q)
+    );
+  }
+  return list;
+}
+
 function renderCatalog(){
   const wrap = document.getElementById("catalog");
-  const list = activeCategory === "Semua" ? products : products.filter(p => p.category === activeCategory);
+  const list = getFilteredList();
   wrap.innerHTML = "";
   if(list.length === 0){
     wrap.style.display = "block";
-    wrap.innerHTML = '<div class="empty-state">Belum ada produk di kategori ini.</div>';
+    const q = searchQuery.trim();
+    wrap.innerHTML = q
+      ? `<div class="empty-state">Tidak ada produk yang cocok dengan "${q}".</div>`
+      : '<div class="empty-state">Belum ada produk di kategori ini.</div>';
     return;
   }
   wrap.style.display = "grid";
@@ -273,11 +334,29 @@ function renderCatalog(){
   });
 }
 
+function setupSearch(){
+  const input = document.getElementById("searchInput");
+  const clearBtn = document.getElementById("searchClear");
+  input.addEventListener("input", () => {
+    searchQuery = input.value;
+    clearBtn.classList.toggle("show", searchQuery.length > 0);
+    renderCatalog();
+  });
+  clearBtn.addEventListener("click", () => {
+    searchQuery = "";
+    input.value = "";
+    clearBtn.classList.remove("show");
+    input.focus();
+    renderCatalog();
+  });
+}
+
 (async function init(){
   await loadData();
   renderProfile();
   renderCategories();
   renderCatalog();
+  setupSearch();
 })();
 </script>
 </body>
