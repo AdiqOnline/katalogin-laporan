@@ -136,6 +136,7 @@
   }
   .field textarea{resize:vertical;min-height:56px;}
   .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--gold);}
+  .field-hint{font-size:11px;color:#9b968a;line-height:1.4;}
 
   .product-list{display:flex;flex-direction:column;gap:12px;}
   .product-row{
@@ -348,8 +349,11 @@
       <div class="field full"><label>Tagline</label><textarea id="f_tagline"></textarea></div>
       <div class="field"><label>Lokasi</label><input id="f_location" type="text"></div>
       <div class="field"><label>Jam Buka</label><input id="f_hours" type="text"></div>
-      <div class="field"><label>Nomor WhatsApp (format 62…)</label><input id="f_whatsapp" type="text" placeholder="6281234567890"></div>
+      <div class="field"><label>Nomor WhatsApp Toko (default, format 62…)</label><input id="f_whatsapp" type="text" placeholder="6281234567890"></div>
       <div class="field"><label>Username Instagram</label><input id="f_instagram" type="text" placeholder="namatoko"></div>
+      <div class="field full field-hint">
+        Nomor WhatsApp toko di atas akan dipakai sebagai nomor tujuan pesan untuk semua produk yang <strong>tidak</strong> diberi nomor WhatsApp khusus di bagian "Produk Katalog" di bawah.
+      </div>
     </div>
   </div>
 
@@ -449,12 +453,12 @@ const DEFAULT_PROFILE = {
 };
 
 const DEFAULT_PRODUCTS = [
-  {id:"p1", name:"Keripik Tempe Original", desc:"Renyah, tanpa pengawet · 250g", price:22000, category:"Camilan", stock:"tersedia", featured:true, image:null},
-  {id:"p2", name:"Sambal Bawang Rumahan", desc:"Pedas gurih · botol 150ml", price:28000, category:"Bumbu", stock:"tersedia", featured:false, image:null},
-  {id:"p3", name:"Jamu Kunyit Asam", desc:"Segar alami · botol 350ml", price:15000, category:"Minuman", stock:"tersedia", featured:false, image:null},
-  {id:"p4", name:"Bumbu Rendang Siap Pakai", desc:"Rempah asli Padang · 200g", price:35000, category:"Bumbu", stock:"habis", featured:false, image:null},
-  {id:"p5", name:"Paket Hampers Nusantara", desc:"Isi 5 camilan pilihan", price:95000, category:"Paket Hampers", stock:"tersedia", featured:false, image:null},
-  {id:"p6", name:"Es Cincau Gula Aren", desc:"Manis alami · cup 300ml", price:12000, category:"Minuman", stock:"tersedia", featured:false, image:null}
+  {id:"p1", name:"Keripik Tempe Original", desc:"Renyah, tanpa pengawet · 250g", price:22000, category:"Camilan", stock:"tersedia", featured:true, image:null, whatsapp:""},
+  {id:"p2", name:"Sambal Bawang Rumahan", desc:"Pedas gurih · botol 150ml", price:28000, category:"Bumbu", stock:"tersedia", featured:false, image:null, whatsapp:""},
+  {id:"p3", name:"Jamu Kunyit Asam", desc:"Segar alami · botol 350ml", price:15000, category:"Minuman", stock:"tersedia", featured:false, image:null, whatsapp:""},
+  {id:"p4", name:"Bumbu Rendang Siap Pakai", desc:"Rempah asli Padang · 200g", price:35000, category:"Bumbu", stock:"habis", featured:false, image:null, whatsapp:""},
+  {id:"p5", name:"Paket Hampers Nusantara", desc:"Isi 5 camilan pilihan", price:95000, category:"Paket Hampers", stock:"tersedia", featured:false, image:null, whatsapp:""},
+  {id:"p6", name:"Es Cincau Gula Aren", desc:"Manis alami · cup 300ml", price:12000, category:"Minuman", stock:"tersedia", featured:false, image:null, whatsapp:""}
 ];
 
 let profile = structuredClone(DEFAULT_PROFILE);
@@ -734,6 +738,10 @@ function renderProductsForm(){
           <option value="habis" ${p.stock === "habis" ? "selected" : ""}>Habis</option>
         </select>
       </div>
+      <div class="field full">
+        <label>Nomor WhatsApp Khusus Produk (opsional)</label>
+        <input type="text" data-f="whatsapp" value="${escapeHtml(p.whatsapp || "")}" placeholder="Kosongkan jika pakai nomor WA toko, format 62…">
+      </div>
       <div class="row-controls">
         <label class="toggle-group">
           <input type="checkbox" data-f="featured" ${p.featured ? "checked" : ""}> Tandai "Terlaris"
@@ -820,6 +828,7 @@ function readProductsForm(){
       price: Number(get("price").value) || 0,
       stock: get("stock").value,
       featured: get("featured").checked,
+      whatsapp: get("whatsapp").value.trim(),
       image: products[idx] ? (products[idx].image || null) : null,
       isNew: products[idx] ? !!products[idx].isNew : false
     });
@@ -830,7 +839,7 @@ function readProductsForm(){
 function addNewProduct(){
   readProductsForm();
   products.forEach(p => { p.isNew = false; });
-  products.unshift({id:"p" + Date.now(), name:"Produk Baru", desc:"", price:0, category:"Lainnya", stock:"tersedia", featured:false, image:null, isNew:true});
+  products.unshift({id:"p" + Date.now(), name:"Produk Baru", desc:"", price:0, category:"Lainnya", stock:"tersedia", featured:false, image:null, whatsapp:"", isNew:true});
   renderProductsForm();
 }
 
