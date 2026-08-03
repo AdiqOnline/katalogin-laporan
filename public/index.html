@@ -230,12 +230,12 @@ const DEFAULT_PROFILE = {
 };
 
 const DEFAULT_PRODUCTS = [
-  {id:"p1", name:"Keripik Tempe Original", desc:"Renyah, tanpa pengawet · 250g", price:22000, category:"Camilan", stock:"tersedia", featured:true},
-  {id:"p2", name:"Sambal Bawang Rumahan", desc:"Pedas gurih · botol 150ml", price:28000, category:"bumbu", stock:"tersedia", featured:false},
-  {id:"p3", name:"Jamu Kunyit Asam", desc:"Segar alami · botol 350ml", price:15000, category:"Minuman", stock:"tersedia", featured:false},
-  {id:"p4", name:"Bumbu Rendang Siap Pakai", desc:"Rempah asli Padang · 200g", price:35000, category:"BUMBU", stock:"habis", featured:false},
-  {id:"p5", name:"Paket Hampers Nusantara", desc:"Isi 5 camilan pilihan", price:95000, category:"Paket Hampers", stock:"tersedia", featured:false},
-  {id:"p6", name:"Es Cincau Gula Aren", desc:"Manis alami · cup 300ml", price:12000, category:"minuman", stock:"tersedia", featured:false}
+  {id:"p1", name:"Keripik Tempe Original", desc:"Renyah, tanpa pengawet · 250g", price:22000, category:"Camilan", stock:"tersedia", featured:true, whatsapp:""},
+  {id:"p2", name:"Sambal Bawang Rumahan", desc:"Pedas gurih · botol 150ml", price:28000, category:"bumbu", stock:"tersedia", featured:false, whatsapp:""},
+  {id:"p3", name:"Jamu Kunyit Asam", desc:"Segar alami · botol 350ml", price:15000, category:"Minuman", stock:"tersedia", featured:false, whatsapp:""},
+  {id:"p4", name:"Bumbu Rendang Siap Pakai", desc:"Rempah asli Padang · 200g", price:35000, category:"BUMBU", stock:"habis", featured:false, whatsapp:""},
+  {id:"p5", name:"Paket Hampers Nusantara", desc:"Isi 5 camilan pilihan", price:95000, category:"Paket Hampers", stock:"tersedia", featured:false, whatsapp:""},
+  {id:"p6", name:"Es Cincau Gula Aren", desc:"Manis alami · cup 300ml", price:12000, category:"minuman", stock:"tersedia", featured:false, whatsapp:""}
 ];
 
 let profile = DEFAULT_PROFILE;
@@ -259,6 +259,14 @@ function normalizeCategoryLabel(cat){
 // Kunci pembanding, supaya "Bumbu" dan "BUMBU" dianggap kategori yang sama
 function categoryKey(cat){
   return (cat || "").trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+// Ambil nomor WA yang berlaku untuk sebuah produk:
+// pakai nomor khusus produk jika diisi, kalau tidak pakai nomor WA toko (default)
+function getProductWaNumber(p){
+  const custom = (p && p.whatsapp ? String(p.whatsapp) : "").trim();
+  const source = custom || (profile.whatsapp || "");
+  return source.replace(/[^0-9]/g, "");
 }
 
 async function loadData(){
@@ -352,11 +360,11 @@ function renderCatalog(){
     return;
   }
   wrap.style.display = "grid";
-  const waNum = (profile.whatsapp || "").replace(/[^0-9]/g,"");
   list.forEach(p => {
     const card = document.createElement("div");
     card.className = "card";
     const habis = p.stock === "habis";
+    const waNum = getProductWaNumber(p);
     const msg = encodeURIComponent("Halo, saya mau pesan " + p.name + " dari katalog toko.");
     card.innerHTML = `
       <div class="card-media"${p.image ? ` style="background-image:url('${p.image}');background-size:cover;background-position:center;"` : ""}>
