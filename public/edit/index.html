@@ -698,13 +698,6 @@ function renderProductsForm(){
     row.dataset.idx = idx;
     row.innerHTML = `
       <div class="field full">
-      <div class="save-bar" style="margin-bottom:20px;">
-      <button class="btn btn-primary" id="saveBtn2">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
-        Simpan Perubahan
-      </button>
-      <span class="status-msg" id="statusMsg2">Tersimpan ✓</span>
-    </div>
         <label>Foto Produk</label>
         <div class="image-upload">
           <div class="product-preview-wrap">
@@ -744,7 +737,10 @@ function renderProductsForm(){
         <label class="toggle-group">
           <input type="checkbox" data-f="featured" ${p.featured ? "checked" : ""}> Tandai "Terlaris"
         </label>
-        <button class="btn btn-danger btn-sm" data-remove="${idx}">Hapus Produk</button>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-primary btn-sm" data-save="${idx}">Simpan</button>
+          <button class="btn btn-danger btn-sm" data-remove="${idx}">Hapus Produk</button>
+        </div>
       </div>
     `;
     wrap.appendChild(row);
@@ -756,6 +752,17 @@ function renderProductsForm(){
       readProductsForm();
       products.splice(i, 1);
       renderProductsForm();
+    };
+  });
+
+  wrap.querySelectorAll("[data-save]").forEach(btn => {
+    btn.onclick = async () => {
+      const originalText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = "Menyimpan…";
+      await saveData();
+      btn.disabled = false;
+      btn.textContent = originalText;
     };
   });
 
@@ -842,10 +849,8 @@ function addNewProduct(){
 }
 
 document.getElementById("addProductBtn").onclick = addNewProduct;
-document.getElementById("addProductBtn2").onclick = addNewProduct;
 
 document.getElementById("saveBtn").onclick = saveData;
-document.getElementById("saveBtn2").onclick = saveData;
 
 function resetToDefault(){
   if(confirm("Kembalikan semua data ke contoh default? Perubahan yang belum disimpan akan hilang.")){
@@ -856,7 +861,6 @@ function resetToDefault(){
   }
 }
 document.getElementById("resetBtn").onclick = resetToDefault;
-document.getElementById("resetBtn2").onclick = resetToDefault;
 
 function escapeHtml(str){
   return String(str).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
